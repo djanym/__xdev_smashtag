@@ -100,7 +100,7 @@ class TweetTableViewCell: UITableViewCell {
 private extension NSMutableAttributedString {
 	func setMensionsColor(_ mensions: [Mention], color: UIColor) {
 		for mension in mensions {
-			addAttribute(NSForegroundColorAttributeName, value: color,
+			addAttribute(NSAttributedStringKey.foregroundColor, value: color,
 			             range: mension.nsrange)
 		}
 	}
