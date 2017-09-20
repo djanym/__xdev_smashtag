@@ -33,4 +33,11 @@ class Tweet: NSManagedObject {
 		
 		return tweet
 	}
+	
+	class func tweetCountFor(mention: String?, tweeter: TwitterUser) -> Int{
+		guard let mention = mention else { return 0 }
+		let request: NSFetchRequest<Tweet> = Tweet.fetchRequest()
+		request.predicate = NSPredicate(format: "text CONTAINS[cd] %@ AND tweeter = %@", mention, tweeter)
+		return ( try? tweeter.managedObjectContext!.count(for: request) ) ?? 0
+	}
 }

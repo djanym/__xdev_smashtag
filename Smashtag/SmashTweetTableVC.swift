@@ -12,6 +12,7 @@ import CoreData
 
 class SmashTweetTableVC: TweetTableVC {
 	
+	// DB
 	var container: NSPersistentContainer? = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
 	
 	override func insertTweets(_ newTweets: [Twitter.Tweet]){
@@ -48,6 +49,21 @@ class SmashTweetTableVC: TweetTableVC {
 			
 			if let tweeterCount = try? context.count( for: TwitterUser.fetchRequest() ) {
 				print("\(tweeterCount) users")
+			}
+		}
+	}
+	
+	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+		super.prepare(for: segue, sender: sender)
+		
+		if let identifier = segue.identifier {
+			switch identifier {
+			case "showMentionTweeters":
+				if let tweetersTVC = segue.destination as? MentionTweetersTableVC {
+					tweetersTVC.container = container
+					tweetersTVC.mention = searchText
+				}
+			default: break
 			}
 		}
 	}

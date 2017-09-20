@@ -124,11 +124,11 @@ class TweetTableVC: UITableViewController, UITextFieldDelegate {
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if let identifier = segue.identifier {
 			switch identifier {
-				case "tweetDetails":
-					if let tweetDetailsVC = segue.destination as? TweetDetailsVC, let tweetCell = sender as? TweetTableViewCell {
-						tweetDetailsVC.tweet = tweetCell.tweet
-					}
-				default: break
+			case "tweetDetails":
+				if let tweetDetailsVC = segue.destination as? TweetDetailsVC, let tweetCell = sender as? TweetTableViewCell {
+					tweetDetailsVC.tweet = tweetCell.tweet
+				}
+			default: break
 			}
 		}
 	}
