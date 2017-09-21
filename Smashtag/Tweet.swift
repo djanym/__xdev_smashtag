@@ -11,7 +11,7 @@ import CoreData
 import Twitter
 
 class Tweet: NSManagedObject {
-	class func findOrCreateTweet(matching tweetInfo: Twitter.Tweet, in context: NSManagedObjectContext) throws -> Tweet {
+	class func findOrCreateTweet(matching tweetInfo: Twitter.Tweet, searchTerm: String, in context: NSManagedObjectContext) throws -> Tweet {
 		let request: NSFetchRequest<Tweet> = Tweet.fetchRequest()
 		request.predicate = NSPredicate(format: "unique = %@", tweetInfo.identifier)
 		do {
@@ -28,8 +28,11 @@ class Tweet: NSManagedObject {
 		let tweet = Tweet(context: context)
 		tweet.unique = tweetInfo.identifier
 		tweet.text = tweetInfo.text
-		tweet.created = tweetInfo.created as NSDate
+		//tweet.created = tweetInfo.created as NSDate
 		tweet.tweeter = try? TwitterUser.findOrCreateTwitterUser(matching: tweetInfo.user, in: context)
+		
+		// Add popular statistics from new mention only
+		try? Popular.addOrUpdateMentions(from: tweetInfo, for: searchTerm, in: context)
 		
 		return tweet
 	}

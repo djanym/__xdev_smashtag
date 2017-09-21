@@ -23,7 +23,7 @@ class SmashTweetTableVC: TweetTableVC {
 	private func updateDB(with tweets: [Twitter.Tweet]){
 		container?.performBackgroundTask{ [weak self] context in
 			for tweetInfo in tweets {
-				_ = try? Tweet.findOrCreateTweet(matching: tweetInfo, in: context)
+				_ = try? Tweet.findOrCreateTweet(matching: tweetInfo, searchTerm: (self?.searchText)!, in: context)
 			}
 			try? context.save()
 			
@@ -49,6 +49,12 @@ class SmashTweetTableVC: TweetTableVC {
 			
 			if let tweeterCount = try? context.count( for: TwitterUser.fetchRequest() ) {
 				print("\(tweeterCount) users")
+			}
+			
+			let request2: NSFetchRequest<Popular> = Popular.fetchRequest()
+			if let popularCount = (try? context.fetch( request2 ))?.count {
+				let searchText = self.searchText!
+				print("\(popularCount) popular mentions for \(searchText)")
 			}
 		}
 	}

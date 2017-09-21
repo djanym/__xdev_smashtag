@@ -61,7 +61,7 @@ class RecentsVC: UITableViewController {
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if let destinationVC = segue.destination.contents as? TweetTableVC, let cell = sender as? UITableViewCell {
+		if segue.identifier == "showMentionPopularity", let destinationVC = segue.destination.contents as? PopularityTVC, let cell = sender as? UITableViewCell {
 			destinationVC.searchText = cell.textLabel?.text
 		}
     }
